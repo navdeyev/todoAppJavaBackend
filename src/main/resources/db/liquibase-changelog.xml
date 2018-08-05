@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="01" author="navdeyev">
+        <createTable tableName="todo_statuses" remarks="A table to contain all possible todo statuses">
+            <column name="name" type="varchar(32)">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+        </createTable>
+        <createTable tableName="todos" remarks="A table to contain all todos">
+            <column name="id" type="varchar(32)">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="goal" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="todos" baseColumnNames="status"
+                                 constraintName="status_fk"
+                                 referencedTableName="todo_statuses" referencedColumnNames="name"/>
+    </changeSet>
+
+    <changeSet id="02" author="navdeyev">
+        <createTable tableName="todo_steps">
+            <column name="id" type="varchar(32)">
+                <constraints nullable="false" unique="true" primaryKey="true"/>
+            </column>
+            <column name="title" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="details" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="todos_fk" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseTableName="todo_steps" baseColumnNames="todos_fk"
+                                 constraintName="todos_fk"
+                                 referencedTableName="todos" referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="03" author="navdeyev">
+        <insert tableName="todo_statuses">
+            <column name="name" value="PENDING"/>
+        </insert>
+        <insert tableName="todo_statuses">
+            <column name="name" value="IN_PROGRESS"/>
+        </insert>
+        <insert tableName="todo_statuses">
+            <column name="name" value="COMPLETE"/>
+        </insert>
+
+        <insert tableName="todos">
+            <column name="id" value="todo-1"/>
+            <column name="title" value="Initialise the repo"/>
+            <column name="goal" value="Get a working repo with all scripts set up for development"/>
+            <column name="status" value="PENDING"/>
+        </insert>
+
+        <insert tableName="todo_steps">
+            <column name="id" value="todo-1-step-1"/>
+            <column name="title" value="Install create-react-app"/>
+            <column name="details" value="Run 'yarn global add create-react-app' from your console"/>
+            <column name="todos_fk" value="todo-1"/>
+        </insert>
+
+        <insert tableName="todo_steps">
+            <column name="id" value="todo-1-step-2"/>
+            <column name="title" value="Initialise the repo"/>
+            <column name="details"
+                    value="Go to directory and run 'create-react-app todoapp --scripts-version=react-scripts-ts' to initialise the repo in todoapp folder"/>
+            <column name="todos_fk" value="todo-1"/>
+        </insert>
+    </changeSet>
+
+
+</databaseChangeLog>
