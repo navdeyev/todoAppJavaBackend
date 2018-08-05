@@ -7,12 +7,12 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet id="01" author="navdeyev">
-        <createTable tableName="todo_statuses" remarks="A table to contain all possible todo statuses">
+        <createTable tableName="todo_status" remarks="A table to contain all possible todo statuses">
             <column name="name" type="varchar(32)">
                 <constraints nullable="false" unique="true" primaryKey="true"/>
             </column>
         </createTable>
-        <createTable tableName="todos" remarks="A table to contain all todos">
+        <createTable tableName="todo" remarks="A table to contain all todos">
             <column name="id" type="varchar(32)">
                 <constraints nullable="false" unique="true" primaryKey="true"/>
             </column>
@@ -26,13 +26,13 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addForeignKeyConstraint baseTableName="todos" baseColumnNames="status"
+        <addForeignKeyConstraint baseTableName="todo" baseColumnNames="status"
                                  constraintName="status_fk"
-                                 referencedTableName="todo_statuses" referencedColumnNames="name"/>
+                                 referencedTableName="todo_status" referencedColumnNames="name"/>
     </changeSet>
 
     <changeSet id="02" author="navdeyev">
-        <createTable tableName="todo_steps">
+        <createTable tableName="todo_step">
             <column name="id" type="varchar(32)">
                 <constraints nullable="false" unique="true" primaryKey="true"/>
             </column>
@@ -42,47 +42,47 @@
             <column name="details" type="varchar(255)">
                 <constraints nullable="false"/>
             </column>
-            <column name="todos_fk" type="varchar(32)">
+            <column name="todo_fk" type="varchar(32)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
-        <addForeignKeyConstraint baseTableName="todo_steps" baseColumnNames="todos_fk"
-                                 constraintName="todos_fk"
-                                 referencedTableName="todos" referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="todo_step" baseColumnNames="todo_fk"
+                                 constraintName="todo_fk"
+                                 referencedTableName="todo" referencedColumnNames="id"/>
     </changeSet>
 
     <changeSet id="03" author="navdeyev">
-        <insert tableName="todo_statuses">
+        <insert tableName="todo_status">
             <column name="name" value="PENDING"/>
         </insert>
-        <insert tableName="todo_statuses">
+        <insert tableName="todo_status">
             <column name="name" value="IN_PROGRESS"/>
         </insert>
-        <insert tableName="todo_statuses">
+        <insert tableName="todo_status">
             <column name="name" value="COMPLETE"/>
         </insert>
 
-        <insert tableName="todos">
+        <insert tableName="todo">
             <column name="id" value="todo-1"/>
             <column name="title" value="Initialise the repo"/>
             <column name="goal" value="Get a working repo with all scripts set up for development"/>
             <column name="status" value="PENDING"/>
         </insert>
 
-        <insert tableName="todo_steps">
+        <insert tableName="todo_step">
             <column name="id" value="todo-1-step-1"/>
             <column name="title" value="Install create-react-app"/>
             <column name="details" value="Run 'yarn global add create-react-app' from your console"/>
-            <column name="todos_fk" value="todo-1"/>
+            <column name="todo_fk" value="todo-1"/>
         </insert>
 
-        <insert tableName="todo_steps">
+        <insert tableName="todo_step">
             <column name="id" value="todo-1-step-2"/>
             <column name="title" value="Initialise the repo"/>
             <column name="details"
                     value="Go to directory and run 'create-react-app todoapp --scripts-version=react-scripts-ts' to initialise the repo in todoapp folder"/>
-            <column name="todos_fk" value="todo-1"/>
+            <column name="todo_fk" value="todo-1"/>
         </insert>
     </changeSet>
 
