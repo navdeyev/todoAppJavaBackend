@@ -1,15 +1,20 @@
-package com.navdeyev.todoAppJavaBackend.todo.dto;
+package com.navdeyev.todoAppJavaBackend.todo.domains;
 
-public class TodoStepDTO {
+import javax.persistence.*;
 
+@Entity
+public class TodoStep {
+
+    @Id
     private String id;
     private String title;
     private String details;
 
-    public TodoStepDTO(String id, String title, String details) {
-        this.id = id;
-        this.title = title;
-        this.details = details;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "todoFk")
+    private Todo todo;
+
+    protected TodoStep() {
     }
 
     public String getId() {

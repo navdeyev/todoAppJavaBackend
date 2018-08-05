@@ -1,6 +1,6 @@
 package com.navdeyev.todoAppJavaBackend.todo;
 
-import com.navdeyev.todoAppJavaBackend.todo.dto.TodoDTO;
+import com.navdeyev.todoAppJavaBackend.todo.domains.Todo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,18 +21,14 @@ public class TodoController {
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/api/todoList")
-    public Collection<TodoDTO> users() {
+    public Collection<Todo> users() {
         return todoService.getTodos();
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/api/todoList/{id}")
-    public TodoDTO user(@PathVariable("id") String id) {
-        Collection<TodoDTO> todos = todoService.getTodos();
-        return todos.stream()
-                .filter(todo -> todo.getId().equals(id))
-                .findFirst()
-                .get();
+    public Todo todoList(@PathVariable("id") String id) {
+        return todoService.getTodo(id);
     }
 
 }
