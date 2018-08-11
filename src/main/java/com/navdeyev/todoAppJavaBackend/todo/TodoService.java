@@ -32,4 +32,24 @@ public class TodoService {
         return todoList;
     }
 
+    String getNextStatus(String todoStatus) {
+        if ("PENDING".equals(todoStatus)) {
+            return "IN_PROGRESS";
+        }
+        if ("IN_PROGRESS".equals(todoStatus)) {
+            return "COMPLETE";
+        }
+        if ("COMPLETE".equals(todoStatus)) {
+            return "PENDING";
+        }
+        return "PENDING";
+    }
+
+    Collection<Todo> updateTodoStatus(String id) {
+        Todo todo = todoRepository.getById(id);
+        todo.setStatus(getNextStatus(todo.getStatus()));
+        todoRepository.save(todo);
+        return getTodos();
+    }
+
 }

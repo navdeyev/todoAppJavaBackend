@@ -10,12 +10,13 @@ public class Todo {
     private String id;
     private String title;
     private String goal;
+    //TODO: introduce an ENUM
     private String status;
 
     @OneToMany(mappedBy="todo")
     private List<TodoStep> steps;
 
-    protected Todo() {
+    public Todo() {
     }
 
     public String getId() {
