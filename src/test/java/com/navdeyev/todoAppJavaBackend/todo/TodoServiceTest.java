@@ -3,6 +3,7 @@ package com.navdeyev.todoAppJavaBackend.todo;
 import com.navdeyev.todoAppJavaBackend.common.GenericBuilder;
 import com.navdeyev.todoAppJavaBackend.todo.domains.Todo;
 import com.navdeyev.todoAppJavaBackend.todo.domains.TodoRepository;
+import com.navdeyev.todoAppJavaBackend.todo.domains.TodoStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -23,27 +24,26 @@ public class TodoServiceTest {
     @InjectMocks
     private TodoService todoService;
 
-    //TODO: introduce an ENUM
     @Test
     public void getNextStatus() {
-        assertEquals(todoService.getNextStatus(null), "PENDING");
-        assertEquals(todoService.getNextStatus("PENDING"), "IN_PROGRESS");
-        assertEquals(todoService.getNextStatus("IN_PROGRESS"), "COMPLETE");
-        assertEquals(todoService.getNextStatus("COMPLETE"), "PENDING");
+        assertEquals(todoService.getNextStatus(null), TodoStatus.PENDING);
+        assertEquals(todoService.getNextStatus(TodoStatus.PENDING), TodoStatus.IN_PROGRESS);
+        assertEquals(todoService.getNextStatus(TodoStatus.IN_PROGRESS), TodoStatus.COMPLETE);
+        assertEquals(todoService.getNextStatus(TodoStatus.COMPLETE), TodoStatus.PENDING);
     }
 
     @Test
     public void testUpdateStatus() {
         Todo todo = GenericBuilder.of(Todo::new)
                 .with(Todo::setId, "someId")
-                .with(Todo::setStatus, "PENDING")
+                .with(Todo::setStatus, TodoStatus.PENDING)
                 .build();
 
         when(todoRepository.getById(todo.getId())).thenReturn(todo);
 
         todoService.updateTodoStatus(todo.getId());
 
-        assertEquals("IN_PROGRESS", todo.getStatus());
+        assertEquals(TodoStatus.IN_PROGRESS, todo.getStatus());
         verify(todoRepository, times(1)).save(todo);
         verify(todoService, times(1)).getTodos();
     }
