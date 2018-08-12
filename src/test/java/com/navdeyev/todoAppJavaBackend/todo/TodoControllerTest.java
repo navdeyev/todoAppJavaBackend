@@ -1,5 +1,6 @@
 package com.navdeyev.todoAppJavaBackend.todo;
 
+import com.navdeyev.todoAppJavaBackend.common.GenericBuilder;
 import com.navdeyev.todoAppJavaBackend.todo.domains.Todo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,10 +32,10 @@ public class TodoControllerTest {
     private TodoController todoController;
 
     private Todo createTodo() {
-        Todo todo = new Todo();
-        todo.setId("someId");
-        todo.setStatus("PENDING");
-        return todo;
+        return GenericBuilder.of(Todo::new)
+                .with(Todo::setId, "someId")
+                .with(Todo::setStatus, "PENDING")
+                .build();
     }
 
     @Test
