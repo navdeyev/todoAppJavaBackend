@@ -10,8 +10,8 @@ public class Todo {
     private String id;
     private String title;
     private String goal;
-    //TODO: introduce an ENUM
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private TodoStatus status;
 
     @OneToMany(mappedBy="todo")
     private List<TodoStep> steps;
@@ -43,11 +43,11 @@ public class Todo {
         this.goal = goal;
     }
 
-    public String getStatus() {
+    public TodoStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TodoStatus status) {
         this.status = status;
     }
 

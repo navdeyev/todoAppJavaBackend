@@ -2,6 +2,7 @@ package com.navdeyev.todoAppJavaBackend.todo;
 
 import com.navdeyev.todoAppJavaBackend.todo.domains.Todo;
 import com.navdeyev.todoAppJavaBackend.todo.domains.TodoRepository;
+import com.navdeyev.todoAppJavaBackend.todo.domains.TodoStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,17 +33,17 @@ public class TodoService {
         return todoList;
     }
 
-    String getNextStatus(String todoStatus) {
-        if ("PENDING".equals(todoStatus)) {
-            return "IN_PROGRESS";
+    TodoStatus getNextStatus(TodoStatus todoStatus) {
+        if (TodoStatus.PENDING.equals(todoStatus)) {
+            return TodoStatus.IN_PROGRESS;
         }
-        if ("IN_PROGRESS".equals(todoStatus)) {
-            return "COMPLETE";
+        if (TodoStatus.IN_PROGRESS.equals(todoStatus)) {
+            return TodoStatus.COMPLETE;
         }
-        if ("COMPLETE".equals(todoStatus)) {
-            return "PENDING";
+        if (TodoStatus.COMPLETE.equals(todoStatus)) {
+            return TodoStatus.PENDING;
         }
-        return "PENDING";
+        return TodoStatus.PENDING;
     }
 
     Collection<Todo> updateTodoStatus(String id) {

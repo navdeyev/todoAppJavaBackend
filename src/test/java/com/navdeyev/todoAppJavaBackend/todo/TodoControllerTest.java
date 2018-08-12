@@ -2,6 +2,7 @@ package com.navdeyev.todoAppJavaBackend.todo;
 
 import com.navdeyev.todoAppJavaBackend.common.GenericBuilder;
 import com.navdeyev.todoAppJavaBackend.todo.domains.Todo;
+import com.navdeyev.todoAppJavaBackend.todo.domains.TodoStatus;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class TodoControllerTest {
     private Todo createTodo() {
         return GenericBuilder.of(Todo::new)
                 .with(Todo::setId, "someId")
-                .with(Todo::setStatus, "PENDING")
+                .with(Todo::setStatus, TodoStatus.PENDING)
                 .build();
     }
 
@@ -48,7 +49,7 @@ public class TodoControllerTest {
         mvc.perform(builder)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("[0].id", is(todo.getId())))
-                .andExpect(jsonPath("[0].status", is(todo.getStatus())));
+                .andExpect(jsonPath("[0].status", is(todo.getStatus().name())));
     }
 
     @Test
@@ -61,7 +62,7 @@ public class TodoControllerTest {
         mvc.perform(builder)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("id", is(todo.getId())))
-                .andExpect(jsonPath("status", is(todo.getStatus())));
+                .andExpect(jsonPath("status", is(todo.getStatus().name())));
     }
 
     @Test
@@ -74,7 +75,7 @@ public class TodoControllerTest {
         mvc.perform(builder)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("[0].id", is(todo.getId())))
-                .andExpect(jsonPath("[0].status", is(todo.getStatus())));
+                .andExpect(jsonPath("[0].status", is(todo.getStatus().name())));
     }
 
 }
