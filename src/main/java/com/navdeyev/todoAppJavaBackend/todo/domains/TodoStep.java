@@ -14,7 +14,7 @@ public class TodoStep {
     @JoinColumn(name = "todoFk")
     private Todo todo;
 
-    protected TodoStep() {
+    public TodoStep() {
     }
 
     public String getId() {

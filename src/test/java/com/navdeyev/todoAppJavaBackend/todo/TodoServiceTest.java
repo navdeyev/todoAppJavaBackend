@@ -1,5 +1,6 @@
 package com.navdeyev.todoAppJavaBackend.todo;
 
+import com.navdeyev.todoAppJavaBackend.common.GenericBuilder;
 import com.navdeyev.todoAppJavaBackend.todo.domains.Todo;
 import com.navdeyev.todoAppJavaBackend.todo.domains.TodoRepository;
 import org.junit.Test;
@@ -33,9 +34,10 @@ public class TodoServiceTest {
 
     @Test
     public void testUpdateStatus() {
-        Todo todo = new Todo();
-        todo.setId("someId");
-        todo.setStatus("PENDING");
+        Todo todo = GenericBuilder.of(Todo::new)
+                .with(Todo::setId, "someId")
+                .with(Todo::setStatus, "PENDING")
+                .build();
 
         when(todoRepository.getById(todo.getId())).thenReturn(todo);
 
