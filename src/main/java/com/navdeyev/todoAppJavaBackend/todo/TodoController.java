@@ -8,6 +8,7 @@ import java.util.Collection;
 
 @RestController
 public class TodoController {
+    private  static final String origins = "http://localhost:3000";
 
     private TodoService todoService;
 
@@ -16,19 +17,19 @@ public class TodoController {
         this.todoService = todoService;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = origins)
     @GetMapping("/api/todoList")
     public Collection<Todo> todos() {
         return todoService.getTodos();
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = origins)
     @GetMapping("/api/todoList/{id}")
-    public Todo todoList(@PathVariable("id") String id) {
+    public Todo todo(@PathVariable("id") String id) {
         return todoService.getTodo(id);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = origins)
     @PostMapping("/api/todoList/{id}/updateStatus")
     public Collection<Todo> updateTodoStatus(@PathVariable("id") String id) {
         return todoService.updateTodoStatus(id);
